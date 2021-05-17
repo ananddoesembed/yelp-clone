@@ -7,8 +7,10 @@ const express_1 = __importDefault(require("express"));
 require('dotenv').config();
 const hotels_1 = require("./routes/hotels");
 const morgan_1 = __importDefault(require("morgan"));
+const cors_1 = __importDefault(require("cors"));
 const server = express_1.default();
 server.use(morgan_1.default("tiny"));
+server.use(cors_1.default());
 server.use(express_1.default.json());
 server.use('/api', hotels_1.router);
 server.use('/', (req, res) => {
