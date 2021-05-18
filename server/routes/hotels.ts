@@ -6,9 +6,9 @@ router.get('/getAllHotels',async(req,res)=>{
         
         const {rows}= await db.query('SELECT * FROM HOTELS',[])
         res.send(rows)
-        console.log(req)
+        
     } catch (error) {
-        console.error(error)
+        console.error(error,req)
     } 
 
 })
@@ -17,13 +17,12 @@ router.get('/getHotel/:id',async(req,res)=>{
         
         const {rows}= await db.query('SELECT $2 FROM HOTELS WHERE ID = $1',[req.params.id,'name'])
         res.send(rows)
-        console.log(req)
     } catch (error) {
         console.error(error)
     }
 })
 
-router.post('/addHotels',async(req,res)=>{
+router.post('/addHotels',async(req,res)=>{ 
     try {
      const response =  await db.query('INSERT INTO hotels (name,location,price_range) VALUES($1,$2,$3)',[req.body.name,req.body.location,req.body.price_range])
         res.send(response)

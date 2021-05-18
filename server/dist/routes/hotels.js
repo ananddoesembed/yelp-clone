@@ -21,17 +21,15 @@ router.get('/getAllHotels', (req, res) => __awaiter(void 0, void 0, void 0, func
     try {
         const { rows } = yield db_1.db.query('SELECT * FROM HOTELS', []);
         res.send(rows);
-        console.log(req);
     }
     catch (error) {
-        console.error(error);
+        console.error(error, req);
     }
 }));
 router.get('/getHotel/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { rows } = yield db_1.db.query('SELECT $2 FROM HOTELS WHERE ID = $1', [req.params.id, 'name']);
         res.send(rows);
-        console.log(req);
     }
     catch (error) {
         console.error(error);
