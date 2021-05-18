@@ -1,9 +1,12 @@
-import React, {ChangeEventHandler, FormEvent, useState} from 'react'
+import {useState} from 'react'
+import { useDispatch } from 'react-redux'
+import { addHotel,getAllHotel } from '../../store/api/actions'
 
 export default function AddRestaurent() {
+    const dispatch = useDispatch()
     const [names,setNames] = useState('')
     const [location,setLocation] = useState('')
-    const [priceRange,setPriceRange] = useState('')
+    const [priceRange,setPriceRange] = useState('Price Range')
     const onChange = (e:EventTarget & HTMLInputElement) =>{
         const {name,value} = e
         console.log(name,value)
@@ -16,6 +19,12 @@ export default function AddRestaurent() {
     }
     const onChangeSelect = (e:EventTarget & HTMLSelectElement) =>{
         console.log(e.value)
+        setPriceRange(e.value)
+    }
+    const onClick= async()=>{
+        console.log(names,priceRange,location)
+      await  dispatch(addHotel(names,location,parseInt(priceRange)))
+     await   dispatch(getAllHotel())
     }
     return (
         <div className="mb-4">
@@ -28,7 +37,7 @@ export default function AddRestaurent() {
                     <input onChange={(e)=>onChange(e.currentTarget)}   name="location" type="text" className="form-control" placeholder="location"/>
                     </div>
                     <div className="col">
-                  <select className="custom-select my-1 mr-sm-2" onChange={(e)=>onChangeSelect(e.currentTarget)}>
+                  <select className="custom-select my-1 mr-sm-2" value={priceRange} onChange={(e)=>onChangeSelect(e.currentTarget)}>
                       <option disabled>Price Range</option>
                       <option value="1">$</option>
                       <option value="2">$$</option>
@@ -36,7 +45,8 @@ export default function AddRestaurent() {
 
                   </select>
                     </div>
-                    <button className="btn btn-primary" >Add</button>
+                    <button className="btn btn-primary" type
+                    ="button" onClick={onClick}>Add</button>
                 </div>
             </form>
         </div>
