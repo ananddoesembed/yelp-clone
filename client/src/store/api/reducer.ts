@@ -1,4 +1,4 @@
-import { ApiDispatchTypes, DELETE_HOTELS, GET_ALL_HOTELS, UPDATE_HOTELS } from "./types"
+import { ApiDispatchTypes, DELETE_HOTELS, GET_ALL_HOTELS, GET_HOTELS, UPDATE_HOTELS } from "./types"
 
 export interface pgState{
     name:string,
@@ -11,14 +11,19 @@ interface apiState{
     allHotel:pgState[],
     addHotel:string
     deleteHotel:string
-    getHotelById:string
+    getHotelById:pgState
     updateHotel:string,
 }
 const INITIAL_STATE ={
     allHotel:[],
     addHotel:'',
     deleteHotel:'',
-    getHotelById:'',
+    getHotelById:{
+        name:'',
+        id:'',
+        location:'',
+        price_range:0
+    },
     updateHotel:'',
 }
 
@@ -35,6 +40,10 @@ const INITIAL_STATE ={
         case DELETE_HOTELS:return{
             ...state,
             deleteHotel:action.payload,
+        }
+        case GET_HOTELS:return{
+            ...state,
+            getHotelById:action.payload
         }
         default:return state
     }

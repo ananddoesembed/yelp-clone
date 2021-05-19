@@ -5,6 +5,7 @@ export const API_FAIL = "API_FAIL"
 export const UPDATE_HOTELS = "UPDATE_HOTELS"
 export const DELETE_HOTELS = "DELETE_HOTELS"
 export const ADD_HOTELS = "ADD_HOTELS"
+export const GET_HOTELS = "GET_HOTELS"
 
 export interface Loading{
     type:typeof API_LOADING
@@ -28,5 +29,9 @@ export interface hotelsDeleted{
 export interface Failed{
     type:typeof API_FAIL
 }
+export interface getHotel{
+    type:typeof GET_HOTELS,
+    payload:pgState
+}
 
-export type ApiDispatchTypes = Loading|allHotelsLoaded|Failed |hotelsAdded|hotelsDeleted|hotelsUpdate
+export type ApiDispatchTypes = Loading|allHotelsLoaded|Failed |hotelsAdded|hotelsDeleted|hotelsUpdate|getHotel

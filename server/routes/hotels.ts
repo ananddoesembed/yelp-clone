@@ -15,7 +15,7 @@ router.get('/getAllHotels',async(req,res)=>{
 router.get('/getHotel/:id',async(req,res)=>{
     try {
         
-        const {rows}= await db.query('SELECT $2 FROM HOTELS WHERE ID = $1',[req.params.id,'name'])
+        const {rows}= await db.query('SELECT * FROM HOTELS WHERE ID = $1',[req.params.id])
         res.send(rows)
     } catch (error) {
         console.error(error)

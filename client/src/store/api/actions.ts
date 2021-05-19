@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
-import { ApiDispatchTypes, API_LOADING, API_FAIL, GET_ALL_HOTELS, UPDATE_HOTELS, DELETE_HOTELS, ADD_HOTELS } from './types'
+import { ApiDispatchTypes, API_LOADING, API_FAIL, GET_ALL_HOTELS, UPDATE_HOTELS, DELETE_HOTELS, ADD_HOTELS, GET_HOTELS } from './types'
 
 
 
@@ -70,6 +70,24 @@ export const updateHotel = (name:string,location:string,price_range:number,id: n
         dispatch({
             type: UPDATE_HOTELS,
             payload: res.data.command
+        })
+    } catch (error) {
+        dispatch({
+            type: API_FAIL
+        })
+    }
+}
+
+export const getHotelById = (id: number) => async (dispatch: Dispatch<ApiDispatchTypes>) => {
+    try {
+        dispatch({
+            type: API_LOADING
+        })
+        const res = await axios.get(`http://localhost:5000/api/getHotel/${id}`)
+        console.log(res)
+        dispatch({
+            type: GET_HOTELS,
+            payload: res.data[0]
         })
     } catch (error) {
         dispatch({
