@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../store/index";
-import {  useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { deleteHotel, getAllHotel } from "../../store/api/actions";
 import { withRouter } from "react-router";
 import {useHistory} from 'react-router-dom'
- function TableComponent() {
+import Stars from "../Stars/Stars";
+ const TableComponent:FC=() =>{
   const dispatch = useDispatch();
   const history = useHistory()
   const api = useSelector((state: RootStore) => state.api);
@@ -15,10 +16,15 @@ import {useHistory} from 'react-router-dom'
     fetchData();
   }, []);
 
-  const deleteHandler = async (id: number) => {
+  const deleteHandler = async (e:React.MouseEvent,id: number) => {
+    e.stopPropagation()
     await dispatch(deleteHotel(id));
     await dispatch(getAllHotel());
   };
+  const updateHandler=(e:React.MouseEvent,id:string)=>{
+    e.stopPropagation()
+    history.push(`${id}/update`)
+  }
   return (
     <div className="list-group">
       <table className="table table-hover table-dark">
@@ -47,18 +53,18 @@ import {useHistory} from 'react-router-dom'
           </tr>
           {api.allHotel.length ? (
             api.allHotel.map((row, index) => (
-              <tr key={index}>
+              <tr onClick={(e)=>history.push(`/details/${row.id}`)} key={index}>
                 <td>{row.name}</td>
                 <td>{row.location}</td>
                 <td>{"$".repeat(row.price_range)}</td>
-                <td>rating</td>
+                <td><Stars/></td>
                 <td>
-                  <button className="btn btn-warning" onClick={()=>history.push(`${row.id}/update`)}>UPDATE</button>
+                  <button className="btn btn-warning" onClick={(e)=>updateHandler(e,row.id)}>UPDATE</button>
                 </td>
                 <td>
                   <button
                     className="btn btn-danger"
-                    onClick={() => deleteHandler(parseInt(row.id))}
+                    onClick={(e) => deleteHandler(e,parseInt(row.id))}
                   >
                     DELETE
                   </button>
