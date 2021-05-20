@@ -57,7 +57,7 @@ import Stars from "../Stars/Stars";
                 <td>{row.name}</td>
                 <td>{row.location}</td>
                 <td>{"$".repeat(row.price_range)}</td>
-                <td><Stars/></td>
+                <td><Stars rating={parseInt(row.average_rating)}/></td>
                 <td>
                   <button className="btn btn-warning" onClick={(e)=>updateHandler(e,row.id)}>UPDATE</button>
                 </td>

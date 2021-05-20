@@ -19,7 +19,7 @@ exports.router = router;
 const db_1 = require("../db/db");
 router.get('/getAllHotels', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { rows } = yield db_1.db.query('SELECT * FROM HOTELS', []);
+        const { rows } = yield db_1.db.query('select  * from hotels join (select hitel_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by hitel_id) reviews on hotels.id = reviews.hitel_id;', []);
         res.send(rows);
     }
     catch (error) {
@@ -56,6 +56,24 @@ router.put('/update', (req, res) => __awaiter(void 0, void 0, void 0, function* 
 router.delete('/deleteHotel/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield db_1.db.query('DELETE FROM hotels WHERE  ID=$1', [req.params.id]);
+        res.send(response);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}));
+router.get('/review/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield db_1.db.query('SELECT * FROM reviews WHERE  hitel_id=$1', [req.params.id]);
+        res.send(response.rows);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}));
+router.post('/review', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield db_1.db.query('INSERT INTO reviews (hitel_id,name,review,rating) values($1,$2,$3,$4) ', [req.body.hotel_id, req.body.name, req.body.review, req.body.rating]);
         res.send(response);
     }
     catch (error) {

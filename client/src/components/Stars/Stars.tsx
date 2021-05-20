@@ -1,7 +1,10 @@
+import React from "react"
 
-export default function Stars() {
+interface starProp{
+    rating:number
+}
+const Stars:React.FC<starProp>=({rating})=> {
     const stars = []
-    const rating = 1.5;
     for(let i=1;i<=5;i++){
         if(i<=rating){
             stars.push(<i className="fas fa-star"></i>)
@@ -14,8 +17,9 @@ export default function Stars() {
         }
     }
     return (
-        <>
-            {stars}
-        </>
+        <div style={{color:"yellow",display:'flex'}}>
+            {stars.map((item,index)=><div key={index}>{item}</div>)}
+        </div>
     )
 }
+export default Stars

@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
-import { ApiDispatchTypes, API_LOADING, API_FAIL, GET_ALL_HOTELS, UPDATE_HOTELS, DELETE_HOTELS, ADD_HOTELS, GET_HOTELS } from './types'
+import { ApiDispatchTypes, API_LOADING, API_FAIL, GET_ALL_HOTELS, UPDATE_HOTELS, DELETE_HOTELS, ADD_HOTELS, GET_HOTELS,GET_REVIEWS } from './types'
 
 
 
@@ -88,6 +88,45 @@ export const getHotelById = (id: number) => async (dispatch: Dispatch<ApiDispatc
         dispatch({
             type: GET_HOTELS,
             payload: res.data[0]
+        })
+    } catch (error) {
+        dispatch({
+            type: API_FAIL
+        })
+    }
+}
+export const getReviewsByHotel = (id: number) => async (dispatch: Dispatch<ApiDispatchTypes>) => {
+    try {
+        dispatch({
+            type: API_LOADING
+        })
+        const res = await axios.get(`http://localhost:5000/api/review/${id}`)
+        console.log(res)
+        dispatch({
+            type: GET_REVIEWS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: API_FAIL
+        })
+    }
+}
+export const addReview = (name:string,rating:number,review:string,id: number) => async (dispatch: Dispatch<ApiDispatchTypes>) => {
+    try {
+        dispatch({
+            type: API_LOADING
+        })
+        const res = await axios.post('http://localhost:5000/api/review',{
+        hotel_id:id,
+        name:name,
+        review:review,
+        rating:rating
+        })
+        console.log(res)
+        dispatch({
+            type: GET_REVIEWS,
+            payload: res.data
         })
     } catch (error) {
         dispatch({
